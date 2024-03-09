@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const Character = require('./models/character')
 
 let playerChars = [
     {
@@ -7,6 +9,8 @@ let playerChars = [
         "name": "Thorin Ashar",
         "Level": 14,
         "Class": ["Sorcerer"],
+        "Race": "Tiefling",
+        "Campaign": "War of Ash and Light",
         "Dead": false,
         "Story": "Lot of things",
         "Status": "Senator of Dreamoth",
@@ -17,6 +21,8 @@ let playerChars = [
         "name": "Levi",
         "Level": 8,
         "Class": ["Monk"],
+        "Race": "Human",
+        "Campaign": "Overthrone",
         "Dead": true,
         "Story": "Lot of things",
         "Status": "Died in battle",
@@ -27,6 +33,8 @@ let playerChars = [
         "name": "Levi",
         "Level": 8,
         "Class": ["Monk"],
+        "Race": "Human",
+        "Campaign": "Overthrone",
         "Dead": true,
         "Story": "Lot of things",
         "Status": "Died in battle",
@@ -45,8 +53,9 @@ const requestLogger = (request, response, next) => {
 app.use(express.json())
 app.use(requestLogger)
 
-app.get('/api/characters', (req, res) => {
-    res.json(playerChars)
+app.get('/api/characters', async (req, res) => {
+    const character = await Character.find({})
+    res.json(character)
 })
 
 app.get('/api/characters/:id', (req, res) => {
@@ -59,9 +68,9 @@ app.get('/api/characters/:id', (req, res) => {
     }
 })
 
-app.post('/api/characters', (req, res) => {
-    const character = req.body
-    res.json(character)
+app.post('/api/characters', async (req, res) => {
+    const body = req.body
+    // add error handling for missing fields
 })
 
 app.delete('/api/characters/:id', (req, res) => {
@@ -76,7 +85,7 @@ const unknownEndpoint = (request, response) => {
   
 app.use(unknownEndpoint)
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
