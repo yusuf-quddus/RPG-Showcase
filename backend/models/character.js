@@ -12,7 +12,7 @@ mongoose.connect(url).then(result => {
 })
 
 const characterSchema = new mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     level: Number,
     subclass: [String],
     race: String,
@@ -25,7 +25,7 @@ const characterSchema = new mongoose.Schema({
 
 characterSchema.set('toJSON', {
     transform: (document, returned) => {
-        returned.id = returnedObject._id.toString()
+        returned.id = returned._id.toString()
         delete returned._id
         delete returned.__v
     }
