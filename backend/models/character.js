@@ -1,16 +1,6 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-mongoose.set('strictQuery', false)
-
-const url = process.env.MONGODB_URI
-
-mongoose.connect(url).then(result => {
-    console.log('connected to mongoDB')
-}).catch(error => {
-    console.log('error occurred in mongoDB', error.message)
-})
-
 const characterSchema = new mongoose.Schema({
     name: {type: String, required: true},
     level: Number,
