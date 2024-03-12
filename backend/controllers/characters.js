@@ -4,7 +4,7 @@ const Character = require('../models/character')
 characterRouter.get('/', async (req, res, next) => {
     try {
         const character = await Character.find({})
-        res.json(character)
+        res.status(200).json(character)
     } catch (exception) {
         next(exception)
     }
@@ -13,7 +13,7 @@ characterRouter.get('/', async (req, res, next) => {
 characterRouter.get('/:id', async (req, res, next) => {
     try {
         const pChar = await Character.findById(req.params.id)
-        res.json(pChar)
+        res.status(200).json(pChar)
     } catch (exception) {
         next(exception)
     } 
@@ -35,7 +35,7 @@ characterRouter.post('/', async (req, res, next) => {
     })
     try {
         const postedCharacter = await character.save(character)
-        res.json(postedCharacter)
+        res.status(201).json(postedCharacter)
     } catch (exception) {
         next(exception)
     }
