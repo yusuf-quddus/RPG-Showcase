@@ -2,21 +2,13 @@ const characterRouter = require('express').Router()
 const Character = require('../models/character')
 
 characterRouter.get('/', async (req, res, next) => {
-    try {
-        const character = await Character.find({})
-        res.status(200).json(character)
-    } catch (exception) {
-        next(exception)
-    }
+    const character = await Character.find({})
+    res.status(200).json(character)
 })
 
 characterRouter.get('/:id', async (req, res, next) => {
-    try {
-        const pChar = await Character.findById(req.params.id)
-        res.status(200).json(pChar)
-    } catch (exception) {
-        next(exception)
-    } 
+    const pChar = await Character.findById(req.params.id)
+    res.status(200).json(pChar)
 })
 
 characterRouter.post('/', async (req, res, next) => {
@@ -32,23 +24,14 @@ characterRouter.post('/', async (req, res, next) => {
         story: body.story,
         status: body.status,
         img: body.img
-    })
-    try {
-        const postedCharacter = await character.save(character)
-        res.status(201).json(postedCharacter)
-    } catch (exception) {
-        next(exception)
-    }
+    })    
+    const postedCharacter = await character.save(character)
+    res.status(201).json(postedCharacter)
 })
 
-characterRouter.delete('/:id', async (req, res, next) => {
-    try {
-        await Character.findByIdAndDelete(req.params.id)
-        res.status(204).end()
-    } catch {
-        next(exception)
-    }
-
+characterRouter.delete('/:id', async (req, res, next) => {   
+    await Character.findByIdAndDelete(req.params.id)
+    res.status(204).end()
 })
 
 characterRouter.put('/:id', async (req, res, next) => {
@@ -65,12 +48,8 @@ characterRouter.put('/:id', async (req, res, next) => {
         img: body.img
     }
 
-    try {
-        const updated = await Character.findByIdAndUpdate(req.params.id, character, {new: true})
-        res.json(updated)
-    } catch {
-        next(exception)
-    }
+    const updated = await Character.findByIdAndUpdate(req.params.id, character, {new: true})
+    res.json(updated)
 })
 
 module.exports = characterRouter
