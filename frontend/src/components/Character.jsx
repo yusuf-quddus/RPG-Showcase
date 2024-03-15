@@ -2,8 +2,7 @@ const Character = ({character}) => {
     return (
       <li key={character.id}>
         <div>
-          <p>{character.name} a level {character.level} {character.race} 
-             {character.subclass.length > 1 ? 
+          <p>{character.name} a level {character.level} {character.race} {character.subclass.length > 1 ? 
               character.subclass.map(s => s + ' / ') : 
               character.subclass.map(s => s)} 
           </p>
