@@ -1,16 +1,11 @@
-const App = (props) => {
-  const {characters} = props
-  let subclasses = ""
+import Character from './components/Character'
+
+const App = ({characters}) => {
+  console.log('App works!')
   return (
     <div>
       <h1>Characters</h1>
-      <ul>{characters.map(c => 
-        <li key={c.id}>
-          <div>
-            <p>{c.name} a level {c.level} {c.race} {c.subclass.length > 1 ? c.subclass.map(s => s + ' / ') : c.subclass.map(s => s)} </p>
-            <img src={c.img} width="200" height="auto"/>
-          </div>
-        </li>)}</ul>
+      <ul>{characters.map(c => <Character key={c.id} character={c}/>)}</ul>
     </div>
   )
 }
