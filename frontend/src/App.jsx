@@ -1,33 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Character from './components/Character'
+import Input from './components/Input'
 
-const min = 0
-const max = 20
-
-const Input = ({value, func, label, type}) => {
-  if (label === 'Level: ') {
-    label = 'Level ' + value + ': '
-  }
-  if (type === 'area') {
-    return (
-      <div>
-        <label htmlFor={label}>{label}
-        <br></br>
-        <textarea id={label} min={min} max={max} name={label} value={value} onChange={func} type={type} />
-        </label>
-      </div>
-    )
-  }
-  return (
-    <label>
-      {label}
-    <input value={value} min={min} max={max} onChange={func} type={type}/>
-    </label>
-  )
-}
-
-const App = ({characters}) => {
-  const [chars, addCharacters] = useState(characters)
+const App = () => {
+  const [chars, addCharacters] = useState([])
   const [name, setName] = useState('')
   const [level, setLevel] = useState(1)
   const [subclass, addSubclass] = useState([])
@@ -39,12 +16,17 @@ const App = ({characters}) => {
   const [status, setStatus] = useState('')
   const [image, setImage] = useState('')
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/characters')
+         .then(res => addCharacters(res.data)
+      )
+  }, [])
 
   const addCharacter = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     const charObj = {
-      id: characters.length + 1,
+      id: chars.length + 1,
       name: name,
       level: level,
       subclass: subclass,
@@ -133,7 +115,7 @@ const App = ({characters}) => {
         <button type="submit">submit</button>
       </form>
       </fieldset>
-      <ul>{characters.map(c => <Character key={c.id} character={c}/>)}</ul>
+      <ul>{chars.map(c => <Character key={c.id} character={c}/>)}</ul>
     </div>
   )
 }
