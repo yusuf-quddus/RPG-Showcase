@@ -1,19 +1,28 @@
 import { useState } from 'react'
 import Character from './components/Character'
 
+const min = 0
+const max = 20
+
 const Input = ({value, func, label, type}) => {
+  if (label === 'Level: ') {
+    label = 'Level ' + value + ': '
+  }
   if (type === 'area') {
     return (
       <div>
-        <label htmlFor={label}>{label}</label>
+        <label htmlFor={label}>{label}
         <br></br>
-        <textarea id={label} name={label} value={value} onChange={func} type={type} />
+        <textarea id={label} min={min} max={max} name={label} value={value} onChange={func} type={type} />
+        </label>
       </div>
     )
   }
   return (
-    <div>{label}<input value={value} onChange={func} type={type}/>
-    </div>
+    <label>
+      {label}
+    <input value={value} min={min} max={max} onChange={func} type={type}/>
+    </label>
   )
 }
 
@@ -34,6 +43,29 @@ const App = ({characters}) => {
   const addCharacter = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
+    const charObj = {
+      id: characters.length + 1,
+      name: name,
+      level: level,
+      subclass: subclass,
+      race: race,
+      campaign: campaign,
+      dead: dead,
+      story: story,
+      status: status,
+      img: image,
+    }
+    addCharacters(chars.concat(charObj))
+    setName('')
+    setLevel(1)
+    setSubclass('')
+    setRace('')
+    setCampaign('')
+    establishLife(false)
+    setStory('')
+    setStatus('')
+    setImage('')
+    console.log(chars)
   }
 
   const handleNameChange = (event) => {
@@ -85,9 +117,11 @@ const App = ({characters}) => {
   return (
     <div>
       <h1>Characters</h1>
+      <fieldset>
+        <legend>Input Character Information</legend>
       <form onSubmit={addCharacter}>
         <Input value={name} func={handleNameChange} label="Name: "/>
-        <Input value={level} func={handleSetLevel} label="Level: "/>
+        <Input value={level} func={handleSetLevel} label="Level: " type="range"/>
         <Input value={newClass} func={handleNewSubclass} label="Class: "/>
         <button onClick={() => handleAddSubclass(newClass)}>add subclass</button>
         <Input value={race} func={handleNewRace} label="Race: "/>
@@ -95,11 +129,10 @@ const App = ({characters}) => {
         <Input value={dead} func={handleDeath} label="Is dead?: " type="checkbox"/>
         <Input value={story} func={handleStory} label="Story: " type="area"/>
         <Input value={status} func={handleStatus} label="Status: " type="area"/>
-        <Input value={story} func={handleStory} label="Story: " type="area"/>
         <Input value={image} func={handleNewImage} label="Image Link: "/>
-        
         <button type="submit">submit</button>
       </form>
+      </fieldset>
       <ul>{characters.map(c => <Character key={c.id} character={c}/>)}</ul>
     </div>
   )
