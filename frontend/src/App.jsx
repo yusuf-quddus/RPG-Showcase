@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import charService from './services/characters'
 import Character from './components/Character'
 import Input from './components/Input'
 
@@ -17,13 +17,14 @@ const App = () => {
   const [image, setImage] = useState('')
 
   useEffect(() => {
-    axios.get('http://localhost:3001/characters')
-         .then(res => addCharacters(res.data)
-      )
+    charService.getAll().then(res => addCharacters(res))
   }, [])
 
   const addCharacter = (event) => {
     event.preventDefault()
+    if (newClass !== '') {
+      handleAddSubclass()
+    }
     console.log('button clicked', event.target)
     const charObj = {
       id: chars.length + 1,
@@ -37,17 +38,18 @@ const App = () => {
       status: status,
       img: image,
     }
-    addCharacters(chars.concat(charObj))
-    setName('')
-    setLevel(1)
-    setSubclass('')
-    setRace('')
-    setCampaign('')
-    establishLife(false)
-    setStory('')
-    setStatus('')
-    setImage('')
-    console.log(chars)
+    charService.createCharacter(charObj).then(res => {
+      addCharacters(chars.concat(res))
+      setName('')
+      setLevel(1)
+      setSubclass('')
+      setRace('')
+      setCampaign('')
+      establishLife(false)
+      setStory('')
+      setStatus('')
+      setImage('')
+    })
   }
 
   const handleNameChange = (event) => {
@@ -58,7 +60,6 @@ const App = () => {
     setLevel(event.target.value)
   }
 
-  // add subclass each time //
   const handleNewSubclass = (event) => {
     setSubclass(event.target.value)
   }
@@ -95,7 +96,6 @@ const App = () => {
     addSubclass(allSubclasses)
   }
 
-  // add reset button
   return (
     <div>
       <h1>Characters</h1>
@@ -105,7 +105,7 @@ const App = () => {
         <Input value={name} func={handleNameChange} label="Name: "/>
         <Input value={level} func={handleSetLevel} label="Level: " type="range"/>
         <Input value={newClass} func={handleNewSubclass} label="Class: "/>
-        <button onClick={() => handleAddSubclass(newClass)}>add subclass</button>
+        <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
         <Input value={race} func={handleNewRace} label="Race: "/>
         <Input value={campaign} func={handleCampaign} label="Campaign: "/>
         <Input value={dead} func={handleDeath} label="Is dead?: " type="checkbox"/>
@@ -121,14 +121,3 @@ const App = () => {
 }
 
 export default App
-
-/*
-  <input value={name} onChange={handleNameChange}/>
-  <input value={level} onChange={handleSetLevel}/>
-  <input value={subclass} onChange={handleNewSubclass}/>
-  <input value={race} onChange={handleNewRace}/>
-  <input value={campaign} onChange={handleCampaign}/>
-  <input value={story} onChange={handleStory}/>
-  <input value={status} onChange={handleStatus}/>
-  <input value={image} onChange={handleNewImage}/>
-*/
