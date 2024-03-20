@@ -28,23 +28,9 @@
       "story": "Lot of things",
       "status": "Died in battle",
       "img": "https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/04/featured-image-1710x9001.png"
-    },
+    }, 
     {
-      "id": "2",
-      "name": "Levi",
-      "level": 8,
-      "subclass": [
-        "Monk"
-      ],
-      "race": "Human",
-      "campaign": "Overthrone",
-      "dead": true,
-      "story": "Lot of things",
-      "status": "Died in battle",
-      "img": "https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/04/featured-image-1710x9001.png"
-    },
-    {
-      "id": 4,
+      "id": "4",
       "name": "boblin the goblin",
       "level": "3",
       "subclass": [

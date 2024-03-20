@@ -25,9 +25,8 @@ const App = () => {
     if (newClass !== '') {
       handleAddSubclass()
     }
-    console.log('button clicked', event.target)
     const charObj = {
-      id: chars.length + 1,
+      id: chars[chars.length-1].id + 1,
       name: name,
       level: level,
       subclass: subclass,
@@ -86,14 +85,19 @@ const App = () => {
 
   const handleDeath = (event) => {
     establishLife(event.target.checked)
-    console.log(event.target.checked)
   }
 
   const handleAddSubclass = (event) => {
     const allSubclasses = subclass.concat(event)
-    console.log(allSubclasses)
     setSubclass('')
     addSubclass(allSubclasses)
+  }
+
+  const deleteCharacter = (id) => {
+    charService.deleteCharacter(id).then(res => {
+      const remainingChars = chars.filter(c => c.id !== id)
+      addCharacters(remainingChars)
+    })
   }
 
   return (
@@ -115,7 +119,12 @@ const App = () => {
         <button type="submit">submit</button>
       </form>
       </fieldset>
-      <ul>{chars.map(c => <Character key={c.id} character={c}/>)}</ul>
+      <ul>{chars.map(c => 
+        <div key={c.id}>
+            <Character key={c.id} character={c}/> 
+            <button type="button" onClick={() => deleteCharacter(c.id)}>delete</button>
+        </div>)}
+      </ul>
     </div>
   )
 }

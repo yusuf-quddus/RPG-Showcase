@@ -13,4 +13,8 @@ const updateCharacter = (id, character) => {
     return axios.put(`${baseUrl}/${id}`, character).then(response => response.data)
 }
 
-export default {getAll, createCharacter, updateCharacter}
+const deleteCharacter = (id) => {
+    return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
+}
+
+export default {getAll, createCharacter, updateCharacter, deleteCharacter}
