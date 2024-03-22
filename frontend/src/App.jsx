@@ -22,14 +22,14 @@ const App = () => {
 
   const addCharacter = (event) => {
     event.preventDefault()
+    let fullSubclassList = subclass
     if (newClass !== '') {
-      handleAddSubclass()
+      fullSubclassList = subclass.concat(newClass)
     }
     const charObj = {
-      id: chars[chars.length-1].id + 1,
       name: name,
       level: level,
-      subclass: subclass,
+      subclass: fullSubclassList,
       race: race,
       campaign: campaign,
       dead: dead,
@@ -48,6 +48,7 @@ const App = () => {
       setStory('')
       setStatus('')
       setImage('')
+      addSubclass([])
     })
   }
 
@@ -89,8 +90,8 @@ const App = () => {
 
   const handleAddSubclass = (event) => {
     const allSubclasses = subclass.concat(event)
-    setSubclass('')
     addSubclass(allSubclasses)
+    setSubclass('')
   }
 
   const deleteCharacter = (id) => {

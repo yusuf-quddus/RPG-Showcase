@@ -6,6 +6,7 @@ const config = require('./utils/config')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 const characterRouter = require('./controllers/characters')
+const cors = require('cors')
 
 mongoose.set('strictQuery', false)
 
@@ -17,6 +18,8 @@ mongoose.connect(config.MONGODB_URI).then(result => {
 
 app.use(express.json())
 app.use(middleware.requestLogger)
+
+app.use(cors())
 
 app.use('/api/characters', characterRouter)
 
