@@ -10,7 +10,11 @@ const characterSchema = new mongoose.Schema({
     dead: Boolean,
     story: String,
     status: String,
-    img: String
+    img: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 characterSchema.set('toJSON', {
