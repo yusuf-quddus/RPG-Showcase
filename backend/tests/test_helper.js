@@ -1,4 +1,5 @@
 const Character = require('../models/character')
+const User = require('../models/user')
 
 const initChars = [
     {
@@ -48,4 +49,9 @@ const incorrectChar = {
     "img": "image-link"
 }
 
-module.exports = {initChars, newChar, incorrectChar}
+const usersInDb = async () => {
+    const users = await User.find({})
+    return users.map(u => u.toJSON())
+}
+
+module.exports = {initChars, newChar, incorrectChar, usersInDb}
