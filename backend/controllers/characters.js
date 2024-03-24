@@ -1,5 +1,6 @@
 const characterRouter = require('express').Router()
 const Character = require('../models/character')
+const User = require('../models/user')
 
 characterRouter.get('/', async (req, res, next) => {
     const character = await Character.find({})
@@ -13,6 +14,9 @@ characterRouter.get('/:id', async (req, res, next) => {
 
 characterRouter.post('/', async (req, res, next) => {
     const body = req.body
+
+    const user = await User.findById(body.userId)
+
     // add error handling for missing fields
     const character = new Character({
         name: body.name,
@@ -23,9 +27,14 @@ characterRouter.post('/', async (req, res, next) => {
         dead: body.dead || false,
         story: body.story,
         status: body.status,
-        img: body.img
+        img: body.img,
+        user: user.id
     })    
-    const postedCharacter = await character.save(character)
+    
+    const postedCharacter = await character.save()
+    user.characters = user.characters.concat(postedCharacter._id)
+    await user.save()
+
     res.status(201).json(postedCharacter)
 })
 

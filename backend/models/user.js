@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     characters: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'character'
+            ref: 'Character'
         }
     ]
 })
@@ -21,4 +21,5 @@ userSchema.set('toJSON', {
     }
 })
 
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+module.exports = User

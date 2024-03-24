@@ -25,4 +25,5 @@ characterSchema.set('toJSON', {
     }
 })
 
-module.exports = mongoose.model('Character', characterSchema)
+const Character = mongoose.model('Character', characterSchema)
+module.exports = Character
