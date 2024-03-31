@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import charService from './services/characters'
+import loginService from './services/login'
 import Character from './components/Character'
 import Input from './components/Input'
+import Login from './components/Login'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -15,10 +17,28 @@ const App = () => {
   const [story, setStory] = useState('')
   const [status, setStatus] = useState('')
   const [image, setImage] = useState('')
+  const [username, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     charService.getAll().then(res => addCharacters(res))
   }, [])
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    try {
+      const user = loginService.login({username, password})
+      setUser(user)
+      setUserName('')
+      setPassword('')
+    } catch (e) {
+      setErrorMessage('Wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
 
   const addCharacter = (event) => {
     event.preventDefault()
@@ -104,6 +124,7 @@ const App = () => {
   return (
     <div>
       <h1>Characters</h1>
+      <Login loginHandler={handleLogin} username={username} password={password} onChangeUser={setUserName} onChangePass={setPassword}/>
       <fieldset>
         <legend>Input Character Information</legend>
       <form onSubmit={addCharacter}>
