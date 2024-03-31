@@ -27,15 +27,14 @@ const App = () => {
     charService.getAll().then(res => addCharacters(res))
   }, [])
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = loginService.login({username, password})
-      setUser(user)
+      const loginUser = await loginService.login({username, password})
+      setUser(loginUser)
       setUserName('')
       setPassword('')
-    } catch (e) {
-      console.log('Wrong Credentials')
+    } catch (error) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -120,7 +119,7 @@ const App = () => {
       <Notification message={errorMessage} />
       <h1>Characters</h1>
       { user === null ? loginForm() : 
-        <div> {user.name} characterForm()</div>
+        <div> {user.name} {characterForm()} </div>
       }
       <ul>{chars.map(c => 
         <div key={c.id}>

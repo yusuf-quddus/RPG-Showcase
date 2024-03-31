@@ -1,20 +1,24 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/characters'
 
-const getAll = () => {
-    return axios.get(baseUrl).then(response => response.data)
+const getAll = async () => {
+    const res = await axios.get(baseUrl)
+    return res.data
 }
 
-const createCharacter = (character) => {
-    return axios.post(baseUrl, character).then(response => response.data)
+const createCharacter = async (character) => {
+    const res = await axios.post(baseUrl, character)
+    return res.data
 }
 
-const updateCharacter = (id, character) => {
-    return axios.put(`${baseUrl}/${id}`, character).then(response => response.data)
+const updateCharacter = async (id, character) => {
+    const res = await axios.put(`${baseUrl}/${id}`, character)
+    return res.data
 }
 
-const deleteCharacter = (id) => {
-    return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
+const deleteCharacter = async (id) => {
+    const res = await axios.delete(`${baseUrl}/${id}`)
+    return res.data
 }
 
 export default {getAll, createCharacter, updateCharacter, deleteCharacter}
