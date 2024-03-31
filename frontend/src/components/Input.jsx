@@ -10,7 +10,8 @@ const Input = ({value, func, label, type}) => {
         <div>
           <label htmlFor={label}>{label}
           <br></br>
-          <textarea id={label} min={min} max={max} name={label} value={value} onChange={func} type={type} />
+          <textarea id={label} min={min} max={max} name={label} value={value} 
+          onChange={({target}) => func(target.value)} type={type} />
           </label>
         </div>
       )
@@ -18,7 +19,7 @@ const Input = ({value, func, label, type}) => {
     return (
       <label>
         {label}
-      <input value={value} min={min} max={max} onChange={func} type={type}/>
+      <input value={value} min={min} max={max} onChange={({target}) => func(target.value)} type={type}/>
       </label>
     )
 }

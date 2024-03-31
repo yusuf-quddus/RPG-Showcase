@@ -4,6 +4,7 @@ import loginService from './services/login'
 import Character from './components/Character'
 import Input from './components/Input'
 import Login from './components/Login'
+import Notification from './components/Notifications'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -20,6 +21,7 @@ const App = () => {
   const [username, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     charService.getAll().then(res => addCharacters(res))
@@ -33,6 +35,7 @@ const App = () => {
       setUserName('')
       setPassword('')
     } catch (e) {
+      console.log('Wrong Credentials')
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -72,42 +75,6 @@ const App = () => {
     })
   }
 
-  const handleNameChange = (event) => {
-    setName(event.target.value)
-  }
-
-  const handleSetLevel = (event) => {
-    setLevel(event.target.value)
-  }
-
-  const handleNewSubclass = (event) => {
-    setSubclass(event.target.value)
-  }
-
-  const handleNewRace = (event) => {
-    setRace(event.target.value)
-  }
-
-  const handleCampaign = (event) => {
-    setCampaign(event.target.value)
-  }
-
-  const handleStory = (event) => {
-    setStory(event.target.value)
-  }
-
-  const handleStatus = (event) => {
-    setStatus(event.target.value)
-  }
-
-  const handleNewImage = (event) => {
-    setImage(event.target.value)
-  }
-
-  const handleDeath = (event) => {
-    establishLife(event.target.checked)
-  }
-
   const handleAddSubclass = (event) => {
     const allSubclasses = subclass.concat(event)
     addSubclass(allSubclasses)
@@ -121,26 +88,40 @@ const App = () => {
     })
   }
 
+  const loginForm = () => (
+    <Login loginHandler={handleLogin} 
+           username={username} 
+           password={password} 
+           onChangeUser={setUserName} 
+           onChangePass={setPassword}/>
+  )
+
+  const characterForm = () => (
+    <fieldset>
+      <legend>Input Character Information</legend>
+      <form onSubmit={addCharacter}>
+        <Input value={name} func={setName} label="Name: "/>
+        <Input value={level} func={setLevel} label="Level: " type="range"/>
+        <Input value={newClass} func={setSubclass} label="Class: "/>
+        <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
+        <Input value={race} func={setRace} label="Race: "/>
+        <Input value={campaign} func={setCampaign} label="Campaign: "/>
+        <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
+        <Input value={story} func={setStory} label="Story: " type="area"/>
+        <Input value={status} func={setStatus} label="Status: " type="area"/>
+        <Input value={image} func={setImage} label="Image Link: "/>
+        <button type="submit">submit</button>
+        </form>
+    </fieldset>
+  )
+
   return (
     <div>
+      <Notification message={errorMessage} />
       <h1>Characters</h1>
-      <Login loginHandler={handleLogin} username={username} password={password} onChangeUser={setUserName} onChangePass={setPassword}/>
-      <fieldset>
-        <legend>Input Character Information</legend>
-      <form onSubmit={addCharacter}>
-        <Input value={name} func={handleNameChange} label="Name: "/>
-        <Input value={level} func={handleSetLevel} label="Level: " type="range"/>
-        <Input value={newClass} func={handleNewSubclass} label="Class: "/>
-        <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
-        <Input value={race} func={handleNewRace} label="Race: "/>
-        <Input value={campaign} func={handleCampaign} label="Campaign: "/>
-        <Input value={dead} func={handleDeath} label="Is dead?: " type="checkbox"/>
-        <Input value={story} func={handleStory} label="Story: " type="area"/>
-        <Input value={status} func={handleStatus} label="Status: " type="area"/>
-        <Input value={image} func={handleNewImage} label="Image Link: "/>
-        <button type="submit">submit</button>
-      </form>
-      </fieldset>
+      { user === null ? loginForm() : 
+        <div> {user.name} characterForm()</div>
+      }
       <ul>{chars.map(c => 
         <div key={c.id}>
             <Character key={c.id} character={c}/> 
