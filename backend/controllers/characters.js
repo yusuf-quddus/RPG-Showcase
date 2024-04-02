@@ -45,7 +45,9 @@ characterRouter.post('/', async (req, res, next) => {
         story: body.story,
         status: body.status,
         img: body.img,
-        user: user.id
+        user: user.id,
+        username: user.username,
+        publicUserName: user.name
     })    
     
     const postedCharacter = await character.save()

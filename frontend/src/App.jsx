@@ -75,6 +75,8 @@ const App = () => {
       story: story,
       status: status,
       img: image,
+      username: user.username,
+      publicUserName: user.name
     }
     charService.createCharacter(charObj).then(res => {
       addCharacters(chars.concat(res))
@@ -127,11 +129,16 @@ const App = () => {
           <Input value={story} func={setStory} label="Story: " type="area"/>
           <Input value={status} func={setStatus} label="Status: " type="area"/>
           <Input value={image} func={setImage} label="Image Link: "/>
+          <br></br>
           <button type="submit">submit</button>
         </form>
       </fieldset>
       <button onClick={handleLogout}>Logout</button>
     </div>
+  )
+
+  const deleteButton = (character) => (
+    <button type="button" onClick={() => deleteCharacter(character.id)}>delete</button>
   )
 
   return (
@@ -143,8 +150,8 @@ const App = () => {
       }
       <ul>{chars.map(c => 
         <div key={c.id}>
-            <Character key={c.id} character={c}/> 
-            <button type="button" onClick={() => deleteCharacter(c.id)}>delete</button>
+            <Character key={c.id} character={c} /> 
+            {(user && user.username === c.username) ? deleteButton(c) : null }
         </div>)}
       </ul>
     </div>

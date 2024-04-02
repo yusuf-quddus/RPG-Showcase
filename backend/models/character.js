@@ -14,7 +14,9 @@ const characterSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    username: String,
+    publicUserName: String,
 })
 
 characterSchema.set('toJSON', {
