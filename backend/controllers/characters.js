@@ -1,6 +1,20 @@
 const characterRouter = require('express').Router()
 const Character = require('../models/character')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+const getToken = (auth) => {
+    console.log(auth)
+    console.log(auth.startsWith('Bearer '))
+    console.log(auth && auth.startsWith('Bearer '))
+    if (auth && auth.startsWith('Bearer ')) {
+        console.log('true')
+        return auth.replace('Bearer ', '')
+    } else {
+        console.log('false')
+        return null
+    }
+}
 
 characterRouter.get('/', async (req, res, next) => {
     const character = await Character.find({})
@@ -14,8 +28,11 @@ characterRouter.get('/:id', async (req, res, next) => {
 
 characterRouter.post('/', async (req, res, next) => {
     const body = req.body
-
-    const user = await User.findById(body.userId)
+    const verifiedToken = jwt.verify(getToken(req.get('authorization')), process.env.SECRET)
+    if (!verifiedToken.id) {
+        return res.status(401).json({ error: 'invalid token!' })
+    }
+    const user = await User.findById(verifiedToken.id)
 
     // add error handling for missing fields
     const character = new Character({

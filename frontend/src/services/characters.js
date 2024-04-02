@@ -1,13 +1,20 @@
 import axios from 'axios'
 const baseUrl = 'http://localhost:3001/api/characters'
 
+let token = null
+
+const setToken = (newToken) => {
+    token = `Bearer ${newToken}`
+}
+
 const getAll = async () => {
     const res = await axios.get(baseUrl)
     return res.data
 }
 
 const createCharacter = async (character) => {
-    const res = await axios.post(baseUrl, character)
+    const config = { headers: { Authorization: token } }
+    const res = await axios.post(baseUrl, character, config)
     return res.data
 }
 
@@ -21,4 +28,4 @@ const deleteCharacter = async (id) => {
     return res.data
 }
 
-export default {getAll, createCharacter, updateCharacter, deleteCharacter}
+export default { getAll, createCharacter, updateCharacter, deleteCharacter, setToken }
