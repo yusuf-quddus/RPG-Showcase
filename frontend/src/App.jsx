@@ -27,10 +27,20 @@ const App = () => {
     charService.getAll().then(res => addCharacters(res))
   }, [])
 
+  useEffect(() => {
+    const loggedInUser = window.localStorage.getItem('loggedInUser')
+    if (loggedInUser) {
+      const user = JSON.parse(loggedInUser)
+      setUser(user)
+      charService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const loginUser = await loginService.login({username, password})
+      window.localStorage.setItem('loggedInUser', JSON.stringify(loginUser)) 
       charService.setToken(loginUser.token)
       setUser(loginUser)
       setUserName('')
@@ -41,6 +51,12 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.clear()
+    setUser(null)
   }
 
   const addCharacter = (event) => {
@@ -97,22 +113,25 @@ const App = () => {
   )
 
   const characterForm = () => (
-    <fieldset>
-      <legend>Input Character Information</legend>
-      <form onSubmit={addCharacter}>
-        <Input value={name} func={setName} label="Name: "/>
-        <Input value={level} func={setLevel} label="Level: " type="range"/>
-        <Input value={newClass} func={setSubclass} label="Class: "/>
-        <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
-        <Input value={race} func={setRace} label="Race: "/>
-        <Input value={campaign} func={setCampaign} label="Campaign: "/>
-        <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
-        <Input value={story} func={setStory} label="Story: " type="area"/>
-        <Input value={status} func={setStatus} label="Status: " type="area"/>
-        <Input value={image} func={setImage} label="Image Link: "/>
-        <button type="submit">submit</button>
+    <div>
+      <fieldset>
+        <legend>Input Character Information</legend>
+        <form onSubmit={addCharacter}>
+          <Input value={name} func={setName} label="Name: "/>
+          <Input value={level} func={setLevel} label="Level: " type="range"/>
+          <Input value={newClass} func={setSubclass} label="Class: "/>
+          <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
+          <Input value={race} func={setRace} label="Race: "/>
+          <Input value={campaign} func={setCampaign} label="Campaign: "/>
+          <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
+          <Input value={story} func={setStory} label="Story: " type="area"/>
+          <Input value={status} func={setStatus} label="Status: " type="area"/>
+          <Input value={image} func={setImage} label="Image Link: "/>
+          <button type="submit">submit</button>
         </form>
-    </fieldset>
+      </fieldset>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
   )
 
   return (
