@@ -5,6 +5,7 @@ import Character from './components/Character'
 import Input from './components/Input'
 import Login from './components/Login'
 import Notification from './components/Notifications'
+import CreateAccount from './components/CreateAccount'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -19,9 +20,12 @@ const App = () => {
   const [status, setStatus] = useState('')
   const [image, setImage] = useState('')
   const [username, setUserName] = useState('')
+  const [publicName, setPublicName] = useState('')
   const [password, setPassword] = useState('')
+  const [retypePassword, setRetypePassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [createAccount, setCreateAccount] = useState(false)
 
   useEffect(() => {
     charService.getAll().then(res => addCharacters(res))
@@ -51,6 +55,18 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const handleCreateAccount = async event => {
+    event.preventDefault()
+  }
+
+  const handleLoginSwitch = () => {
+    setUserName('')
+    setPublicName('')
+    setPassword('')
+    setRetypePassword('')
+    setCreateAccount(!createAccount)
   }
 
   const handleLogout = async (event) => {
@@ -111,11 +127,27 @@ const App = () => {
            username={username} 
            password={password} 
            onChangeUser={setUserName} 
-           onChangePass={setPassword}/>
+           onChangePass={setPassword}
+           onClickCreateAccount={handleLoginSwitch}/>
+  )
+
+  const createAccountForm = () => (
+    <CreateAccount 
+      onClick={handleCreateAccount} 
+      username={username}
+      password={password}
+      retype={retypePassword}
+      publicName={publicName}
+      onChangeUser={setUserName} 
+      onChangePass={setPassword} 
+      onChangeRetype={setRetypePassword}
+      onChangePubName={setPublicName}
+      onClickCancel={handleLoginSwitch}/>
   )
 
   const characterForm = () => (
     <div>
+      {user.name}
       <fieldset>
         <legend>Input Character Information</legend>
         <form onSubmit={addCharacter}>
@@ -141,13 +173,15 @@ const App = () => {
     <button type="button" onClick={() => deleteCharacter(character.id)}>delete</button>
   )
 
+  const form = () => (
+    <div> {createAccount ? createAccountForm() : loginForm()} </div>
+  )
+
   return (
     <div>
       <Notification message={errorMessage} />
-      <h1>Characters</h1>
-      { user === null ? loginForm() : 
-        <div> {user.name} {characterForm()} </div>
-      }
+      <h1>RPG Showcase</h1>
+      { user === null ? form() : characterForm() }
       <ul>{chars.map(c => 
         <div key={c.id}>
             <Character key={c.id} character={c} /> 
