@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import charService from './services/characters'
 import loginService from './services/login'
+import userService from './services/user'
 import Character from './components/Character'
 import Input from './components/Input'
 import Login from './components/Login'
@@ -40,6 +41,21 @@ const App = () => {
     }
   }, [])
 
+  const displayErrorMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+
+  // will later differentiate error vs non-error notifications
+  const displayMessage = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -50,15 +66,8 @@ const App = () => {
       setUserName('')
       setPassword('')
     } catch (error) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      displayErrorMessage('Username or password is incorrect')
     }
-  }
-
-  const handleCreateAccount = async event => {
-    event.preventDefault()
   }
 
   const handleLoginSwitch = () => {
@@ -69,6 +78,22 @@ const App = () => {
     setCreateAccount(!createAccount)
   }
 
+  const handleCreateAccount = async event => {
+    event.preventDefault()
+    if (password === retypePassword) {
+      try {
+        const name = publicName
+        await userService.registerAccount({username, name, password})
+        handleLoginSwitch()
+        displayMessage('Your account has been created, please sign in')
+      } catch (error) {
+        displayErrorMessage(`The username "${username}" is already taken`)
+      }
+    } else {
+      displayErrorMessage('Passwords do not match')
+    }
+  }
+
   const handleLogout = async (event) => {
     event.preventDefault()
     window.localStorage.clear()
@@ -77,10 +102,12 @@ const App = () => {
 
   const addCharacter = (event) => {
     event.preventDefault()
+
     let fullSubclassList = subclass
     if (newClass !== '') {
       fullSubclassList = subclass.concat(newClass)
     }
+
     const charObj = {
       name: name,
       level: level,
@@ -94,6 +121,7 @@ const App = () => {
       username: user.username,
       publicUserName: user.name
     }
+
     charService.createCharacter(charObj).then(res => {
       addCharacters(chars.concat(res))
       setName('')
