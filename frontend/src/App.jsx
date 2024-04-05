@@ -175,15 +175,15 @@ const App = () => {
 
   const characterForm = () => (
     <div>
-      {user.name}
+      Signed in as {user.name}
       <fieldset>
         <legend>Input Character Information</legend>
         <form onSubmit={addCharacter}>
           <Input value={name} func={setName} label="Name: "/>
           <Input value={level} func={setLevel} label="Level: " type="range"/>
+          <Input value={race} func={setRace} label="Race: "/>
           <Input value={newClass} func={setSubclass} label="Class: "/>
           <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
-          <Input value={race} func={setRace} label="Race: "/>
           <Input value={campaign} func={setCampaign} label="Campaign: "/>
           <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
           <Input value={story} func={setStory} label="Story: " type="area"/>
@@ -211,7 +211,7 @@ const App = () => {
       <h1>RPG Showcase</h1>
       { user === null ? form() : characterForm() }
       <ul>{chars.map(c => 
-        <div key={c.id}>
+        <div key={c.id} style={{display: 'inline-block'}}>
             <Character key={c.id} character={c} /> 
             {(user && user.username === c.username) ? deleteButton(c) : null }
         </div>)}

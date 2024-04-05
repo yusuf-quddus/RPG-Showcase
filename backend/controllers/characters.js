@@ -4,14 +4,9 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 const getToken = (auth) => {
-    console.log(auth)
-    console.log(auth.startsWith('Bearer '))
-    console.log(auth && auth.startsWith('Bearer '))
     if (auth && auth.startsWith('Bearer ')) {
-        console.log('true')
         return auth.replace('Bearer ', '')
     } else {
-        console.log('false')
         return null
     }
 }
