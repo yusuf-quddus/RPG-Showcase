@@ -42,7 +42,7 @@ const App = () => {
   }, [])
 
   const displayErrorMessage = (message) => {
-    setErrorMessage(message)
+    setErrorMessage(message, true)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -50,7 +50,7 @@ const App = () => {
 
   // will later differentiate error vs non-error notifications
   const displayMessage = (message) => {
-    setErrorMessage(message)
+    setErrorMessage(message, false)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -65,6 +65,7 @@ const App = () => {
       setUser(loginUser)
       setUserName('')
       setPassword('')
+      displayMessage("logged in")
     } catch (error) {
       displayErrorMessage('Username or password is incorrect')
     }
@@ -80,7 +81,7 @@ const App = () => {
 
   const handleCreateAccount = async event => {
     event.preventDefault()
-    if (password === retypePassword) {
+    if (username != '' && password != '' && username == '' && password === retypePassword) {
       try {
         const name = publicName
         await userService.registerAccount({username, name, password})
@@ -89,8 +90,10 @@ const App = () => {
       } catch (error) {
         displayErrorMessage(`The username "${username}" is already taken`)
       }
-    } else {
+    } else if (password !== retypePassword) {
       displayErrorMessage('Passwords do not match')
+    } else {
+      displayErrorMessage('Missing fields')
     }
   }
 
@@ -123,6 +126,7 @@ const App = () => {
     }
 
     charService.createCharacter(charObj).then(res => {
+      displayMessage("Player character successfully posted")
       addCharacters(chars.concat(res))
       setName('')
       setLevel(1)
