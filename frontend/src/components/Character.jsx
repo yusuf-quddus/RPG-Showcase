@@ -7,7 +7,6 @@ const Character = ({character}) => {
               character.subclass.map(s => s)} 
           </p>
           <p><i>by {character.publicUserName}</i></p>
-         {console.log(`../../../backend/images/${character.img}`)}
           <img src={`images/${character.img}`} width="200" height="auto" alt="test"/>
         </div>
       </li>

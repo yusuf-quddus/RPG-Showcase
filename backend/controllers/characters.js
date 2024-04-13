@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname))
-        //cb(null, file.originalname)
     }
 })
 
@@ -33,7 +32,6 @@ const fileFilter = (req, file, cb) => {
 }
 
 let upload = multer({ storage: storage, fileFilter: fileFilter });
-// const upload = multer({ dest: 'images/' });
 
 characterRouter.get('/', async (req, res, next) => {
     const character = await Character.find({})
@@ -47,7 +45,6 @@ characterRouter.get('/:id', async (req, res, next) => {
 
 characterRouter.post('/', upload.single('photo'), async (req, res, next) => {
     const body = req.body
-    console.log(req.file)
     const verifiedToken = jwt.verify(getToken(req.get('authorization')), process.env.SECRET)
     if (!verifiedToken.id) {
         return res.status(401).json({ error: 'invalid token!' })

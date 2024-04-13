@@ -16,14 +16,14 @@ const Input = ({value, func, label, type}) => {
         </div>
       )
     } else if (type === 'file') {
-      
-      // <label>
-      //   {label}
-      //   <input type='file' name='photo' value={value}  
-      //          onChange={e => func(e.target.files[0])} 
-      //           accept=".png, .jpg, .jpeg"/>
-      // </label>
-      
+      return (
+        <label>
+        {label}
+        <input type='file' name='photo' value={value.file}  
+               onChange={e => func(e.target.files[0])} 
+                accept=".png, .jpg, .jpeg"/>
+      </label>
+      )  
     }
     return (
       <label>

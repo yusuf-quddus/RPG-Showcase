@@ -27,6 +27,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [createAccount, setCreateAccount] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     charService.getAll().then(res => addCharacters(res))
@@ -42,7 +43,8 @@ const App = () => {
   }, [])
 
   const displayErrorMessage = (message) => {
-    setErrorMessage(message, true)
+    setError(true)
+    setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -50,7 +52,8 @@ const App = () => {
 
   // will later differentiate error vs non-error notifications
   const displayMessage = (message) => {
-    setErrorMessage(message, false)
+    setError(false)
+    setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -99,6 +102,7 @@ const App = () => {
 
   const handleLogout = async (event) => {
     event.preventDefault()
+    displayMessage("logged out")
     window.localStorage.clear()
     setUser(null)
   }
@@ -125,34 +129,23 @@ const App = () => {
     formData.append("username", user.username)
     formData.append("publicUserName", user.name)
 
-    const charObj = {
-      name: name,
-      level: level,
-      subclass: fullSubclassList,
-      race: race,
-      campaign: campaign,
-      dead: dead,
-      story: story,
-      status: status,
-      img: image,
-      username: user.username,
-      publicUserName: user.name
+    try {
+      const res = await charService.createCharacter(formData)
+      displayMessage("Player character successfully posted")
+      addCharacters(chars.concat(res))
+      setName('')
+      setLevel(1)
+      setSubclass('')
+      setRace('')
+      setCampaign('')
+      establishLife(false)
+      setStory('')
+      setStatus('')
+      setImage('')
+      addSubclass([])
+    } catch (error) {
+      displayErrorMessage("Missing Fields")
     }
-
-    const res = await charService.createCharacter(formData)
-    displayMessage("Player character successfully posted")
-    addCharacters(chars.concat(res))
-    setName('')
-    setLevel(1)
-    setSubclass('')
-    setRace('')
-    setCampaign('')
-    establishLife(false)
-    setStory('')
-    setStatus('')
-    setImage('')
-    addSubclass([])
-    
   }
 
   const handleAddSubclass = (event) => {
@@ -206,7 +199,7 @@ const App = () => {
           <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
           <Input value={story} func={setStory} label="Story: " type="area"/>
           <Input value={status} func={setStatus} label="Status: " type="area"/>
-          <input type='file' name='photo' onChange={e => setImage(e.target.files[0])} accept=".png, .jpg, .jpeg"/>
+          <Input value={image} func = {setImage} label="Image: " type = "file" />
           <br></br>
           <button type="submit">submit</button>
         </form>
@@ -225,7 +218,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} error={error}/>
       <h1>RPG Showcase</h1>
       { user === null ? form() : characterForm() }
       <Showcase chars={chars} user={user} deleteButton={deleteButton}/>
