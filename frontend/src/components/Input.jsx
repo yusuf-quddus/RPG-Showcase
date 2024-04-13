@@ -10,16 +10,27 @@ const Input = ({value, func, label, type}) => {
         <div>
           <label htmlFor={label}>{label}
           <br></br>
-          <textarea id={label} min={min} max={max} name={label} value={value} 
+          <textarea id={label} name={label} value={value} 
           onChange={({target}) => func(target.value)} type={type} />
           </label>
         </div>
       )
+    } else if (type === 'file') {
+      
+      // <label>
+      //   {label}
+      //   <input type='file' name='photo' value={value}  
+      //          onChange={e => func(e.target.files[0])} 
+      //           accept=".png, .jpg, .jpeg"/>
+      // </label>
+      
     }
     return (
       <label>
         {label}
-      <input value={value} min={min} max={max} onChange={({target}) => func(target.value)} type={type}/>
+        <input value={value} min={min} max={max} 
+               onChange={({target}) => func(target.value)} 
+               type={type}/>
       </label>
     )
 }

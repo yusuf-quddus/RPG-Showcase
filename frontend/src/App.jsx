@@ -103,13 +103,27 @@ const App = () => {
     setUser(null)
   }
 
-  const addCharacter = (event) => {
+  const addCharacter = async (event) => {
     event.preventDefault()
 
     let fullSubclassList = subclass
     if (newClass !== '') {
       fullSubclassList = subclass.concat(newClass)
     }
+
+    const formData = new FormData()
+
+    formData.append("name", name)
+    formData.append("level", level)
+    formData.append("subclass", fullSubclassList)
+    formData.append("race", race)
+    formData.append("campaign", campaign)
+    formData.append("dead", dead)
+    formData.append("story", story)
+    formData.append("status", status)
+    formData.append("photo", image)
+    formData.append("username", user.username)
+    formData.append("publicUserName", user.name)
 
     const charObj = {
       name: name,
@@ -125,20 +139,20 @@ const App = () => {
       publicUserName: user.name
     }
 
-    charService.createCharacter(charObj).then(res => {
-      displayMessage("Player character successfully posted")
-      addCharacters(chars.concat(res))
-      setName('')
-      setLevel(1)
-      setSubclass('')
-      setRace('')
-      setCampaign('')
-      establishLife(false)
-      setStory('')
-      setStatus('')
-      setImage('')
-      addSubclass([])
-    })
+    const res = await charService.createCharacter(formData)
+    displayMessage("Player character successfully posted")
+    addCharacters(chars.concat(res))
+    setName('')
+    setLevel(1)
+    setSubclass('')
+    setRace('')
+    setCampaign('')
+    establishLife(false)
+    setStory('')
+    setStatus('')
+    setImage('')
+    addSubclass([])
+    
   }
 
   const handleAddSubclass = (event) => {
@@ -182,7 +196,7 @@ const App = () => {
       Signed in as {user.name}
       <fieldset>
         <legend>Input Character Information</legend>
-        <form onSubmit={addCharacter}>
+        <form onSubmit={addCharacter} encType="multipart/form-data">
           <Input value={name} func={setName} label="Name: "/>
           <Input value={level} func={setLevel} label="Level: " type="range"/>
           <Input value={race} func={setRace} label="Race: "/>
@@ -192,7 +206,7 @@ const App = () => {
           <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
           <Input value={story} func={setStory} label="Story: " type="area"/>
           <Input value={status} func={setStatus} label="Status: " type="area"/>
-          <Input value={image} func={setImage} label="Image Link: "/>
+          <input type='file' name='photo' onChange={e => setImage(e.target.files[0])} accept=".png, .jpg, .jpeg"/>
           <br></br>
           <button type="submit">submit</button>
         </form>

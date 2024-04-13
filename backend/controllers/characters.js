@@ -2,14 +2,38 @@ const characterRouter = require('express').Router()
 const Character = require('../models/character')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const multer = require('multer')
+const { v4: uuidv4 } = require('uuid');
+let path = require('path')
 
 const getToken = (auth) => {
     if (auth && auth.startsWith('Bearer ')) {
         return auth.replace('Bearer ', '')
+    } 
+    return null
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../frontend/src/images/')
+    },
+    filename: (req, file, cb) => {
+        cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname))
+        //cb(null, file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true)
     } else {
-        return null
+        cb(null, false)
     }
 }
+
+let upload = multer({ storage: storage, fileFilter: fileFilter });
+// const upload = multer({ dest: 'images/' });
 
 characterRouter.get('/', async (req, res, next) => {
     const character = await Character.find({})
@@ -21,8 +45,9 @@ characterRouter.get('/:id', async (req, res, next) => {
     res.status(200).json(pChar)
 })
 
-characterRouter.post('/', async (req, res, next) => {
+characterRouter.post('/', upload.single('photo'), async (req, res, next) => {
     const body = req.body
+    console.log(req.file)
     const verifiedToken = jwt.verify(getToken(req.get('authorization')), process.env.SECRET)
     if (!verifiedToken.id) {
         return res.status(401).json({ error: 'invalid token!' })
@@ -39,7 +64,7 @@ characterRouter.post('/', async (req, res, next) => {
         dead: body.dead || false,
         story: body.story,
         status: body.status,
-        img: body.img,
+        img: req.file.filename,
         user: user.id,
         username: user.username,
         publicUserName: user.name
