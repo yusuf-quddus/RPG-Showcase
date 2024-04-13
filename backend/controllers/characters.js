@@ -15,7 +15,7 @@ const getToken = (auth) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../frontend/src/images/')
+        cb(null, '../frontend/public/images/')
     },
     filename: (req, file, cb) => {
         cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname))
