@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import charService from './services/characters'
 import loginService from './services/login'
 import userService from './services/user'
-import Character from './components/Character'
 import Input from './components/Input'
 import Login from './components/Login'
+import Showcase from './components/Showcase'
 import Notification from './components/Notifications'
 import CreateAccount from './components/CreateAccount'
 
@@ -214,12 +214,7 @@ const App = () => {
       <Notification message={errorMessage} />
       <h1>RPG Showcase</h1>
       { user === null ? form() : characterForm() }
-      <ul>{chars.map(c => 
-        <div key={c.id} style={{display: 'inline-block'}}>
-            <Character key={c.id} character={c} /> 
-            {(user && user.username === c.username) ? deleteButton(c) : null }
-        </div>)}
-      </ul>
+      <Showcase chars={chars} user={user} deleteButton={deleteButton}/>
     </div>
   )
 }
