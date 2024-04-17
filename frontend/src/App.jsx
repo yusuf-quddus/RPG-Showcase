@@ -144,7 +144,13 @@ const App = () => {
       setImage('')
       addSubclass([])
     } catch (error) {
-      displayErrorMessage("Missing Fields")
+      if (name === '') {
+        displayErrorMessage("Name Missing")
+      } else if (image === '') {
+        displayErrorMessage("Image Missing")
+      } else {
+        displayErrorMessage("Missing Fields")
+      }
     }
   }
 
@@ -194,7 +200,9 @@ const App = () => {
           <Input value={level} func={setLevel} label="Level: " type="range"/>
           <Input value={race} func={setRace} label="Race: "/>
           <Input value={newClass} func={setSubclass} label="Class: "/>
-          <button type="button" onClick={() => handleAddSubclass(newClass)}>add subclass</button>
+          <button type="button" 
+                  onClick={() => handleAddSubclass(newClass)}>
+                  add subclass</button>
           <Input value={campaign} func={setCampaign} label="Campaign: "/>
           <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
           <Input value={story} func={setStory} label="Story: " type="area"/>

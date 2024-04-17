@@ -10,7 +10,7 @@ const characterSchema = new mongoose.Schema({
     dead: Boolean,
     story: String,
     status: String,
-    img: String,
+    img: {type: String, required: true},
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
