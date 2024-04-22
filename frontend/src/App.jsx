@@ -7,6 +7,9 @@ import Login from './components/Login'
 import Showcase from './components/Showcase'
 import Notification from './components/Notifications'
 import CreateAccount from './components/CreateAccount'
+import CharacterInfo from './components/CharacterInfo'
+import { BrowserRouter as Router, Routes, Route } 
+  from 'react-router-dom'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -30,7 +33,9 @@ const App = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    charService.getAll().then(res => addCharacters(res))
+    charService.getAll().then(res => {
+      addCharacters(res)
+    })
   }, [])
 
   useEffect(() => {
@@ -50,7 +55,6 @@ const App = () => {
     }, 5000)
   }
 
-  // will later differentiate error vs non-error notifications
   const displayMessage = (message) => {
     setError(false)
     setErrorMessage(message)
@@ -216,8 +220,14 @@ const App = () => {
     </div>
   )
 
-  const deleteButton = (character) => (
-    <button type="button" onClick={() => deleteCharacter(character.id)}>delete</button>
+  const deleteButton = (character, navigate) => (
+    <button type="button" onClick={() => 
+      {
+        deleteCharacter(character.id)
+        if (navigate) {
+          navigate('/')
+        }
+      }}>delete</button>
   )
 
   const form = () => (
@@ -226,10 +236,15 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} error={error}/>
-      <h1>RPG Showcase</h1>
-      { user === null ? form() : characterForm() }
-      <Showcase chars={chars} user={user} deleteButton={deleteButton}/>
+      <Router>
+        <div>
+          <Notification message={errorMessage} error={error}/>
+        </div>
+        <Routes>
+          <Route path="/" element={<Showcase chars={chars} user={user} deleteButton={deleteButton} characterForm={characterForm} form={form}/>} />
+          <Route path="/character/:id" element={<CharacterInfo characters={chars} user={user} deleteButton={deleteButton}/>}/>
+        </Routes>
+      </Router>
     </div>
   )
 }
