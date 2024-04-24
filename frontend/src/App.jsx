@@ -111,6 +111,19 @@ const App = () => {
     setUser(null)
   }
 
+  const clearForm = () => {
+    setName('')
+    setLevel(1)
+    setSubclass('')
+    setRace('')
+    setCampaign('')
+    establishLife(false)
+    setStory('')
+    setStatus('')
+    setImage('')
+    addSubclass([])
+  }
+
   const addCharacter = async (event) => {
     event.preventDefault()
 
@@ -137,16 +150,7 @@ const App = () => {
       const res = await charService.createCharacter(formData)
       displayMessage("Player character successfully posted")
       addCharacters(chars.concat(res))
-      setName('')
-      setLevel(1)
-      setSubclass('')
-      setRace('')
-      setCampaign('')
-      establishLife(false)
-      setStory('')
-      setStatus('')
-      setImage('')
-      addSubclass([])
+      clearForm()
     } catch (error) {
       if (name === '') {
         displayErrorMessage("Name Missing")
@@ -214,6 +218,7 @@ const App = () => {
           <Input value={image} func = {setImage} label="Image: " type = "file" />
           <br></br>
           <button type="submit">submit</button>
+          <button type="button" onClick={clearForm}>clear</button>
         </form>
       </fieldset>
       <button onClick={handleLogout}>Logout</button>
