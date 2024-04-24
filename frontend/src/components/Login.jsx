@@ -1,21 +1,21 @@
+import { TextField, Button } from "@mui/material"
+
 const Login = ({loginHandler, username, password, onChangeUser, onChangePass, onClickCreateAccount}) => {
     return (
         <div>
             <form onSubmit={loginHandler}>
                 <div>
-                    username <input value={username} 
-                                    onChange={({target}) => onChangeUser(target.value)}> 
-                            </input>
+                    <TextField id="outlined-basic" label="username" value={username} 
+                        onChange={({target}) => onChangeUser(target.value)}> </TextField>
                 </div>
                 <div>
-                    password <input type="password" 
-                                    value={password} 
-                                    onChange={({target}) => onChangePass(target.value)}>
-                            </input>
+                    <TextField id="outliend-basic" label="password" type="password" 
+                               value={password} onChange={({target}) => onChangePass(target.value)}>
+                    </TextField>
                 </div>
-                <button type="submit">Login</button>
+                <Button variant="outlined" type="submit">Login</Button>
             </form>
-            <button onClick={() => onClickCreateAccount(true)}>Create Account</button>
+            <Button variant="outlined" onClick={() => onClickCreateAccount(true)}>Create Account</Button>
         </div>
     )
 }

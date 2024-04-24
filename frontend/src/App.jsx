@@ -10,6 +10,7 @@ import CreateAccount from './components/CreateAccount'
 import CharacterInfo from './components/CharacterInfo'
 import { BrowserRouter as Router, Routes, Route } 
   from 'react-router-dom'
+import { Container } from '@mui/material'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -88,7 +89,7 @@ const App = () => {
 
   const handleCreateAccount = async event => {
     event.preventDefault()
-    if (username != '' && password != '' && username == '' && password === retypePassword) {
+    if (username != '' && password != '' && publicName != '' && password === retypePassword) {
       try {
         const name = publicName
         await userService.registerAccount({username, name, password})
@@ -240,17 +241,20 @@ const App = () => {
   )
 
   return (
-    <div>
-      <Router>
-        <div>
-          <Notification message={errorMessage} error={error}/>
-        </div>
-        <Routes>
-          <Route path="/" element={<Showcase chars={chars} user={user} deleteButton={deleteButton} characterForm={characterForm} form={form}/>} />
-          <Route path="/character/:id" element={<CharacterInfo characters={chars} user={user} deleteButton={deleteButton}/>}/>
-        </Routes>
-      </Router>
-    </div>
+    <Container>
+      <div>
+        <Router>
+          <div>
+            <Notification message={errorMessage} error={error}/>
+          </div>
+          <Routes>
+            <Route path="/" element={<Showcase chars={chars} user={user} deleteButton={deleteButton} characterForm={characterForm} form={form}/>} />
+            <Route path="/character/:id" element={<CharacterInfo characters={chars} user={user} deleteButton={deleteButton}/>}/>
+          </Routes>
+        </Router>
+        <i>Created by Yusuf Quddus</i>
+      </div>
+    </Container>
   )
 }
 
