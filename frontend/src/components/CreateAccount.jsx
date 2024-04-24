@@ -5,22 +5,22 @@ const CreateAccount = (props) => {
         <div>
             <form onSubmit={props.onClick}>
                 <div>
-                    <TextField id="outlined-basic" label="username" value={props.username} 
+                    <TextField variant="outlined" label="username" value={props.username} 
                         onChange={({target}) => props.onChangeUser(target.value)}> </TextField>
                 </div>
                 <div>
-                    <TextField id="outliend-basic" label="password" type="password"
+                    <TextField variant="outlined" label="password" type="password"
                         value={props.password} 
                         onChange={({target}) => props.onChangePass(target.value)}>
                     </TextField>
                 </div>
                 <div>
-                    <TextField id="outliend-basic" label="retype password" type="password" 
+                    <TextField variant="outlined" label="retype password" type="password" 
                         value={props.retype} onChange={({target}) => props.onChangeRetype(target.value)}>
                     </TextField>
                 </div>
                 <div>
-                    <TextField id="outlined-basic" label="public name" value={props.publicName} 
+                    <TextField variant="outlined" label="public name" value={props.publicName} 
                         onChange={({target}) => props.onChangePubName(target.value)}>
                     </TextField>
                 </div>

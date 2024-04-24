@@ -5,11 +5,11 @@ const Login = ({loginHandler, username, password, onChangeUser, onChangePass, on
         <div>
             <form onSubmit={loginHandler}>
                 <div>
-                    <TextField id="outlined-basic" label="username" value={username} 
+                    <TextField variant="outlined" label="username" value={username} 
                         onChange={({target}) => onChangeUser(target.value)}> </TextField>
                 </div>
                 <div>
-                    <TextField id="outliend-basic" label="password" type="password" 
+                    <TextField variant="outlined" label="password" type="password" 
                                value={password} onChange={({target}) => onChangePass(target.value)}>
                     </TextField>
                 </div>
