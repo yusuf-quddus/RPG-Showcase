@@ -4,6 +4,7 @@ import loginService from './services/login'
 import userService from './services/user'
 import Input from './components/Input'
 import Login from './components/Login'
+import Footer from './components/Footer'
 import Showcase from './components/Showcase'
 import Notification from './components/Notifications'
 import CreateAccount from './components/CreateAccount'
@@ -260,7 +261,6 @@ const App = () => {
 
   return (
     <Container>
-      <div>
         <Router>
           <div>
             <Notification message={errorMessage} error={error}/>
@@ -272,8 +272,7 @@ const App = () => {
                    user={user} deleteButton={deleteButton}/>}/>
           </Routes>
         </Router>
-        <i>Created by Yusuf Quddus</i>
-      </div>
+        <Footer />
     </Container>
   )
 }
