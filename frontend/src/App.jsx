@@ -10,7 +10,8 @@ import CreateAccount from './components/CreateAccount'
 import CharacterInfo from './components/CharacterInfo'
 import { BrowserRouter as Router, Routes, Route } 
   from 'react-router-dom'
-import { Container } from '@mui/material'
+import { Container, Fab, Button } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit'
 
 const App = () => {
   const [chars, addCharacters] = useState([])
@@ -32,6 +33,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [createAccount, setCreateAccount] = useState(false)
   const [error, setError] = useState(false)
+  const [charFormVisible, setCharFormVisible] = useState(false)
 
   useEffect(() => {
     charService.getAll().then(res => {
@@ -220,23 +222,39 @@ const App = () => {
           <br></br>
           <button type="submit">submit</button>
           <button type="button" onClick={clearForm}>clear</button>
+          <button type="button" onClick={() => setCharFormVisible(false)}>close</button>
         </form>
       </fieldset>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   )
 
+  const hiddenFormButton = () => (
+    <div className='form_button'>
+      <Fab color="primary" aria-label="edit" onClick={() => setCharFormVisible(true)}>
+        <EditIcon />
+      </Fab>
+    </div>
+  )
+
+  const characterFormHidden = () => (
+    <div>
+      {charFormVisible ? characterForm() : hiddenFormButton()}
+      <Button variant="outlined" onClick={handleLogout}>Logout</Button>
+    </div>
+  )
+  
+
   const deleteButton = (character, navigate) => (
-    <button type="button" onClick={() => 
+    <Button variant="outlined" color="error" onClick={() => 
       {
         deleteCharacter(character.id)
         if (navigate) {
           navigate('/')
         }
-      }}>delete</button>
+      }}> Delete </Button>
   )
 
-  const form = () => (
+  const accountForm = () => (
     <div> {createAccount ? createAccountForm() : loginForm()} </div>
   )
 
@@ -248,8 +266,10 @@ const App = () => {
             <Notification message={errorMessage} error={error}/>
           </div>
           <Routes>
-            <Route path="/" element={<Showcase chars={chars} user={user} deleteButton={deleteButton} characterForm={characterForm} form={form}/>} />
-            <Route path="/character/:id" element={<CharacterInfo characters={chars} user={user} deleteButton={deleteButton}/>}/>
+            <Route path="/" element={<Showcase chars={chars} user={user} 
+                   deleteButton={deleteButton} characterForm={characterFormHidden} form={accountForm}/>} />
+            <Route path="/character/:id" element={<CharacterInfo characters={chars} 
+                   user={user} deleteButton={deleteButton}/>}/>
           </Routes>
         </Router>
         <i>Created by Yusuf Quddus</i>

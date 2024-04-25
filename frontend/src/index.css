@@ -1,19 +1,22 @@
-.error {
-    color: red;
-    font-size: 20px;
-    background: lightgrey;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+.account_inputs {
+    margin-left: 1em;
 }
 
-.notification {
-    color: green;
-    font-size: 20px;
-    background: lightgrey;
-    border-style: solid;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+.account_buttons {
+    margin: auto;
+    width: 50%;
+}
+
+.account_form {
+    margin: auto;
+    width: 50%;
+}
+
+.form_button {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.card {
+    margin-right: 1em;
 }

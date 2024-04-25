@@ -2,7 +2,8 @@ import { Card, CardContent, CardMedia, Typography, CardActionArea } from "@mui/m
 
 const Character = ({character}) => {
     return (
-        <Card sx={{ minWidth: 200, maxWidth: 400, color: "primary.main"}}>
+      <div className="card">
+        <Card sx={{ minWidth: 250, maxWidth: 500, color: "primary.main"}}>
           <CardActionArea>
             <CardMedia
               component="img"
@@ -23,18 +24,8 @@ const Character = ({character}) => {
             </CardContent>
           </CardActionArea>
         </Card>
+      </div>
     )
 }
 
 export default Character
-
-/*
-<div>
-          <p>{character.name} a level {character.level} {character.race} {character.subclass.length > 1 ? 
-              character.subclass.map(s => s + '  ') : 
-              character.subclass.map(s => s)} 
-          </p>
-          <p><i>by {character.publicUserName}</i></p>
-          <img src={`images/${character.img}`} width="200" height="auto" alt="test"/>
-        </div>
-*/
