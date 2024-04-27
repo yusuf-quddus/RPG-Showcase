@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 const Showcase = ({chars, user, deleteButton, characterForm, form}) => {
     return (
       <div>
-        <h1>RPG Showcase</h1>
         { user === null ? form() : characterForm() }
         <hr></hr>
         {chars.map(c => 

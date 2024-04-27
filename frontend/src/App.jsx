@@ -4,6 +4,7 @@ import loginService from './services/login'
 import userService from './services/user'
 import Input from './components/Input'
 import Login from './components/Login'
+import Header from './components/Header'
 import Footer from './components/Footer'
 import Showcase from './components/Showcase'
 import Notification from './components/Notifications'
@@ -204,7 +205,6 @@ const App = () => {
 
   const characterForm = () => (
     <div>
-      Signed in as {user.name}
       <fieldset>
         <legend>Input Character Information</legend>
         <form onSubmit={addCharacter} encType="multipart/form-data">
@@ -240,7 +240,6 @@ const App = () => {
   const characterFormHidden = () => (
     <div>
       {charFormVisible ? characterForm() : hiddenFormButton()}
-      <Button variant="outlined" onClick={handleLogout}>Logout</Button>
     </div>
   )
   
@@ -261,6 +260,7 @@ const App = () => {
 
   return (
     <Container>
+        <Header user={user} onClick={handleLogout}/>
         <Router>
           <div>
             <Notification message={errorMessage} error={error}/>
