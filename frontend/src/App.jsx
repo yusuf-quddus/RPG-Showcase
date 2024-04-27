@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import charService from './services/characters'
 import loginService from './services/login'
 import userService from './services/user'
-import Input from './components/Input'
+import Form from './components/Form'
 import Login from './components/Login'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -204,29 +204,15 @@ const App = () => {
   )
 
   const characterForm = () => (
-    <div>
-      <fieldset>
-        <legend>Input Character Information</legend>
-        <form onSubmit={addCharacter} encType="multipart/form-data">
-          <Input value={name} func={setName} label="Name: "/>
-          <Input value={level} func={setLevel} label="Level: " type="range"/>
-          <Input value={race} func={setRace} label="Race: "/>
-          <Input value={newClass} func={setSubclass} label="Class: "/>
-          <button type="button" 
-                  onClick={() => handleAddSubclass(newClass)}>
-                  add subclass</button>
-          <Input value={campaign} func={setCampaign} label="Campaign: "/>
-          <Input value={dead} func={establishLife} label="Is dead?: " type="checkbox"/>
-          <Input value={story} func={setStory} label="Story: " type="area"/>
-          <Input value={status} func={setStatus} label="Status: " type="area"/>
-          <Input value={image} func = {setImage} label="Image: " type = "file" />
-          <br></br>
-          <button type="submit">submit</button>
-          <button type="button" onClick={clearForm}>clear</button>
-          <button type="button" onClick={() => setCharFormVisible(false)}>close</button>
-        </form>
-      </fieldset>
-    </div>
+      <Form name={name} level={level} race={race}
+            newClass={newClass} campaign={campaign} dead={dead} story={story}
+            status={status} image={image} addCharacter={addCharacter} 
+            handleAddSubclass={handleAddSubclass} setName={setName} 
+            setLevel={setLevel} setRace={setRace} setSubclass={setSubclass}
+            setCampaign={setCampaign} establishLife={establishLife} 
+            setStory={setStory} setStatus={setStatus} setImage={setImage} 
+            clearForm={clearForm} setCharFormVisible={setCharFormVisible}
+      />
   )
 
   const hiddenFormButton = () => (

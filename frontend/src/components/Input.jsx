@@ -1,7 +1,6 @@
-const min = 0
-const max = 20
-
 const Input = ({value, func, label, type}) => {
+    const min = 0
+    const max = 20
     if (label === 'Level: ') {
       label = 'Level ' + value + ': '
     }
