@@ -18,9 +18,9 @@ const Login = ({loginHandler, username, password, onChangeUser, onChangePass, on
                 <div className="account_form">
                     <Button variant="outlined" type="submit">Login</Button>
                     <span className="account_inputs">
-                    <Button variant="outlined" 
-                        onClick={() => onClickCreateAccount(true)}>Create Account</Button>
-                </span>
+                        <Button variant="outlined" 
+                            onClick={() => onClickCreateAccount(true)}>Create Account</Button>
+                    </span>
                 </div>
             </form>
         </div>

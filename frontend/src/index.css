@@ -10,6 +10,7 @@
 .account_form {
     margin: auto;
     width: 50%;
+    margin-top: 1em;
 }
 
 .form_button {
@@ -19,4 +20,5 @@
 
 .card {
     margin-right: 1em;
+    margin-top: 1em;
 }
