@@ -4,6 +4,8 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs')
+const { promisify } = require('util')
 let path = require('path')
 
 const getToken = (auth) => {
@@ -33,6 +35,8 @@ const fileFilter = (req, file, cb) => {
 
 let upload = multer({ storage: storage, fileFilter: fileFilter });
 
+const unlinkAsync = promisify(fs.unlink)
+
 characterRouter.get('/', async (req, res, next) => {
     const character = await Character.find({})
     res.status(200).json(character)
@@ -51,7 +55,6 @@ characterRouter.post('/', upload.single('photo'), async (req, res, next) => {
     }
     const user = await User.findById(verifiedToken.id)
 
-    // add error handling for missing fields
     const character = new Character({
         name: body.name,
         level: body.level,
@@ -75,7 +78,9 @@ characterRouter.post('/', upload.single('photo'), async (req, res, next) => {
 })
 
 characterRouter.delete('/:id', async (req, res, next) => {   
+    const deletedCharacter = await Character.findById(req.params.id)
     await Character.findByIdAndDelete(req.params.id)
+    await unlinkAsync(`../frontend/public/images/${deletedCharacter.img}`)
     res.status(204).end()
 })
 
