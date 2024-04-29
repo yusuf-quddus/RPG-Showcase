@@ -166,6 +166,7 @@ const App = () => {
       } else {
         displayErrorMessage("Missing Fields")
       }
+      setCharFormVisible(true);
     }
   }
 

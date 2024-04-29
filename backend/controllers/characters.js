@@ -70,11 +70,15 @@ characterRouter.post('/', upload.single('photo'), async (req, res, next) => {
         publicUserName: user.name
     })    
     
-    const postedCharacter = await character.save()
-    user.characters = user.characters.concat(postedCharacter._id)
-    await user.save()
-
-    res.status(201).json(postedCharacter)
+    try {
+        const postedCharacter = await character.save()
+        user.characters = user.characters.concat(postedCharacter._id)
+        await user.save()   
+        res.status(201).json(postedCharacter)
+    } catch (error) {
+        await unlinkAsync(`../frontend/public/images/${req.file.filename}`)
+        throw error
+    }
 })
 
 characterRouter.delete('/:id', async (req, res, next) => {   
