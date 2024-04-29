@@ -12,10 +12,24 @@
     width: 50%;
     margin-top: 1em;
 }
+.account_form2 {
+    margin: auto;
+    width: 50%;
+    margin-top: 1em;
+}
 
 .form_button {
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+.submission_buttons {
+    margin: auto;
+    width: 20%;
+}
+
+.range-center {
+    margin-left: 25%;
 }
 
 .card {

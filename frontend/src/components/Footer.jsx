@@ -1,6 +1,6 @@
 const Footer = () => (
     <div className="form_button">
-        <i>Created by Yusuf Quddus</i>
+        <i>Website Created by Yusuf Quddus</i>
     </div>
 )
 

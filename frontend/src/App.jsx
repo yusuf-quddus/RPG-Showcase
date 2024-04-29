@@ -137,6 +137,8 @@ const App = () => {
       fullSubclassList = subclass.concat(newClass)
     }
 
+    setCharFormVisible(false)
+
     const formData = new FormData()
 
     formData.append("name", name)
@@ -206,7 +208,7 @@ const App = () => {
   const characterForm = () => (
       <Form name={name} level={level} race={race}
             newClass={newClass} campaign={campaign} dead={dead} story={story}
-            status={status} image={image} addCharacter={addCharacter} 
+            status={status} image={image} subclasses={subclass} addCharacter={addCharacter} 
             handleAddSubclass={handleAddSubclass} setName={setName} 
             setLevel={setLevel} setRace={setRace} setSubclass={setSubclass}
             setCampaign={setCampaign} establishLife={establishLife} 
