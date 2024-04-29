@@ -17,8 +17,9 @@ const Character = ({character}) => {
               <Typography variant="body2" color="text.secondary">
                 level: {character.level} <br></br>
                 race: {character.race} <br></br> 
-                class: {character.subclass.length > 1 ? character.subclass.map(s => s + '  ') : 
-                       character.subclass.map(s => s)} <br></br> 
+                class: {character.subclass.length === 0 ? 
+                        ("n/a") : character.subclass.map(s => s + '  ')} 
+                <br></br> 
                 <i>by {character.publicUserName}</i>
               </Typography>
             </CardContent>

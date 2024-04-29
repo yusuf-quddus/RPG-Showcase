@@ -25,7 +25,7 @@ const Form = (props) => {
                     <Input value={props.status} func={props.setStatus} label="Current Status" type="area"/>
                     <Input value={props.image} func = {props.setImage} label="Image: " type = "file" />
                     <div className="account_buttons form_button">
-                        <Button variant="outlined" type="button" onClick={props.clearForm}>clear</Button>
+                        <Button variant="outlined" type="button" onClick={props.clearForm}>clear form</Button>
                         <Button variant="outlined" type="button" onClick={() => props.setCharFormVisible(false)}>close</Button>
                         <Button color="success" variant="outlined" type="submit">submit</Button>
                     </div>

@@ -12,11 +12,6 @@
     width: 50%;
     margin-top: 1em;
 }
-.account_form2 {
-    margin: auto;
-    width: 50%;
-    margin-top: 1em;
-}
 
 .form_button {
     margin-top: 1em;
@@ -30,6 +25,10 @@
 
 .range-center {
     margin-left: 25%;
+}
+
+#site-description {
+    margin-top: 1em;
 }
 
 .card {

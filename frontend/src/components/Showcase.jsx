@@ -1,9 +1,15 @@
 import Character from './Character'
 import { Link } from 'react-router-dom'
+import { Typography } from '@mui/material'
 
 const Showcase = ({chars, user, deleteButton, characterForm, form}) => {
     return (
       <div>
+        <div id="site-description">
+          <Typography variant="p">Welcome to RPG Showcase! 
+            From D&D to Pathfinder, immortalize your ttrpg character. </Typography>
+        </div>
+        <br></br>
         { user === null ? form() : characterForm() }
         <hr></hr>
         {chars.map(c => 
