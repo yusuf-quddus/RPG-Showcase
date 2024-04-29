@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 
 const characterSchema = new mongoose.Schema({
     name: {type: String, required: true},
-    level: Number,
+    level: {type: String, required: true},
     subclass: [String],
-    race: String,
+    race: {type: String, required: true},
     campaign: String,
     dead: Boolean,
     story: String,
