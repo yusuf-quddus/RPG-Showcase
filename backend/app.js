@@ -27,6 +27,7 @@ app.use('/api/characters', characterRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
+app.use(express.static('dist'))
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
