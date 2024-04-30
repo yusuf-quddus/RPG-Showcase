@@ -17,7 +17,7 @@ const Showcase = ({chars, user, deleteButton, characterForm, form}) => {
             <Link to={`/character/${c.id}`} style={{ textDecoration: 'none' }}>
               <Character key={c.id} character={c} /> 
             </Link>
-            {(user && user.username === c.username) ? deleteButton(c) : null }
+            {(user && user.id === c.user) ? deleteButton(c) : null }
           </div>)}
       </div>
     )

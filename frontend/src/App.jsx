@@ -113,6 +113,7 @@ const App = () => {
     event.preventDefault()
     displayMessage("logged out")
     window.localStorage.clear()
+    clearForm()
     setUser(null)
   }
 
@@ -126,6 +127,7 @@ const App = () => {
     setStory('')
     setStatus('')
     setImage('')
+    setCharFormVisible(false)
     addSubclass([])
   }
 
