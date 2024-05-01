@@ -54,7 +54,6 @@ characterRouter.get('/', async (req, res, next) => {
         const command = new GetObjectCommand(getObjectParams);
         const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
         character.img = url
-        console.log(url)
     }
 
     res.status(200).json(characters)
