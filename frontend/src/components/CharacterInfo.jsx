@@ -18,8 +18,9 @@ const CharacterInfo = ({characters, user, deleteButton}) => {
         <div>
             <h1 className='color-primary'>{character.name} {character.dead ? (' (RIP)') : null}</h1>
             <h3>The level {character.level} {character.race} {character.subclass.map(s => ' ' + s)}</h3>
-            <p>Backstory: {character.story === '' ? (<i>[Backstory not provided]</i>) : character.story}</p>
-            <p>Status: {character.status === '' ? (<i>[Status not provided]</i>) : character.story}</p>
+            <h4><b>Campaign</b>: {character.campaign}</h4>
+            <p><b>Backstory:</b> {character.story === '' ? (<i>[Backstory not provided]</i>) : character.story}</p>
+            <p><b>Status:</b> {character.status === '' ? (<i>[Status not provided]</i>) : character.status}</p>
             <div className='account_form'>
             <img src={`${character.img}`} width="200" height="auto" alt="test"/>
             <div>
