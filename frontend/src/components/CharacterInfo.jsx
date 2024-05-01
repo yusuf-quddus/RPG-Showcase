@@ -23,8 +23,7 @@ const CharacterInfo = ({characters, user, deleteButton}) => {
             <div className='account_form'>
             <img src={`/images/${character.img}`} width="200" height="auto" alt="test"/>
             <div>
-                {(user && user.username === character.username) ? 
-                  deleteButton(character, navigate) : null }
+            {(user && user.id === character.user) ? deleteButton(character, navigate) : null }
             </div>
             </div>
             <Button variant="outlined" onClick={() => navigate('/')}>Back</Button>
