@@ -21,7 +21,7 @@ const CharacterInfo = ({characters, user, deleteButton}) => {
             <p>Backstory: {character.story === '' ? (<i>[Backstory not provided]</i>) : character.story}</p>
             <p>Status: {character.status === '' ? (<i>[Status not provided]</i>) : character.story}</p>
             <div className='account_form'>
-            <img src={`/images/${character.img}`} width="200" height="auto" alt="test"/>
+            <img src={`${character.img}`} width="200" height="auto" alt="test"/>
             <div>
             {(user && user.id === character.user) ? deleteButton(character, navigate) : null }
             </div>

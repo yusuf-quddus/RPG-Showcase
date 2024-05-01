@@ -157,9 +157,10 @@ const App = () => {
 
     try {
       const res = await charService.createCharacter(formData)
-      displayMessage("Player character successfully posted")
       addCharacters(chars.concat(res))
       clearForm()
+      window.location.reload()
+      displayMessage("Player character successfully posted")
     } catch (error) {
       if (name === '') {
         displayErrorMessage("Name Missing")

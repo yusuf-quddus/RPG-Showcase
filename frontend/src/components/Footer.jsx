@@ -1,6 +1,7 @@
 const Footer = () => (
     <div className="form_button">
-        <i>Website Created by Yusuf Quddus</i>
+        <i>Website created by Yusuf Quddus. 
+            Hosted on <a href='https://github.com/yusuf-quddus/RPG-Showcase'>GitHub</a>.</i>
     </div>
 )
 
