@@ -32,7 +32,7 @@ List the main technologies and libraries used:
 ## Setup and run
 Create **.env** in backend directory
 
-### Install
+install code locally
 ```shell
 git clone git@github.com:yusuf-quddus/RPG-Showcase.git
 cd RPG-Showcase
